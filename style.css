@@ -1,0 +1,16 @@
+* {
+	font-family: 'Open Sans', sans-serif;
+}
+.label {}
+.axis path, .axis line {
+    fill: none;
+    stroke: #333;
+}
+.axis .grid-line {
+    stroke: #000;
+    stroke-opacity: 0.2;
+}
+.axis text {
+    font: 9px Verdana;
+    text-anchor:end;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+<!--	<script src="https://d3js.org/d3.v6.min.js"></script>	-->
+	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+	<title>Шрифт Цезаря</title>
+</head>
+
+<body>
+	<form>
+		<fieldset>
+			<legend>Шифр Цезаря</legend>
+			<p>
+			    Кількість символів для зсуву:
+			</p>
+			<input type="number" id="shift_number" name="shiftNum">
+			<p>
+				Введіть повідомлення для шифру:
+			</p>
+			<textarea rows="4" cols="70" id="crypt_message">Введіть дані . . .</textarea>
+			<br><input type="button" value="Зашифрувати" onclick="runEncryption()">
+			<input type="button" value="Розшифрувати" onclick="runDecryption()">
+			<input type="button" value="Проаналізувати" onclick="analizeText()">
+			<p>
+				Результат виконання шифрування:
+			</p>
+			<textarea rows="4" cols="70" id="crypt_result" readonly>Нічого не написано!</textarea>
+			<p>
+				Гістограми данних:
+			</p>
+			<div id="diagram1"></div>
+			<div id="diagram2"></div>
+			<div id="diagram3"></div>
+			<div id="diagram4"></div>
+		</fieldset>
+		
+	</form>
+	<script src="main_functions.js"></script>
+</body>
+</html>
