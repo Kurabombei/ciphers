@@ -6,19 +6,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
 	<link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-<!--	<script src="https://d3js.org/d3.v6.min.js"></script>	-->
+	<!--	<script src="https://d3js.org/d3.v6.min.js"></script>	-->
 	<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-	<title>Шрифт Цезаря</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js"></script>
+	<script src="main_functions.js"></script>
+	<title>Шифрація різними методами</title>
 </head>
 
 <body>
 	<form>
 		<fieldset>
-			<legend>Шифр Цезаря</legend>
-			<p>
-			    Кількість символів для зсуву:
-			</p>
-			<input type="number" id="shift_number" name="shiftNum">
+			<legend>Статистичний аналіз та шифр Цезара</legend>
 			<p>
 				Введіть повідомлення для шифру:
 			</p>
@@ -27,19 +28,84 @@
 			<input type="button" value="Розшифрувати" onclick="runDecryption()">
 			<input type="button" value="Проаналізувати" onclick="analizeText()">
 			<p>
-				Результат виконання шифрування:
+				Кількість символів для зсуву:
 			</p>
-			<textarea rows="4" cols="70" id="crypt_result" readonly>Нічого не написано!</textarea>
+			<input type="number" id="shift_number" name="shiftNum">
+
+			<p>
+				<strong>Результат шифрування:</strong>
+			</p>
+			<p>Визначений алфавіт:</p>
+			<div id="crypt_alphabet" style="font-style: italic;"></div>
+			
+			Символ який найчастіше повторюється:
+			<div id="crypt_shift" style="text-align: center;width:20px;border-radius: 5px; border: 4px double black;">_</div>
+			Код для розшифрування даного ШТ:
+			<div id="crypt_shift_number" style="text-align: center;width:20px;border-radius: 5px; border: 4px double black;">0</div>
+			Пошук символьних рядків:
+			<input type="text" name="keyword" id="keyword" placeholder="abc ...">
+
+			<br />
+			<input type="button" value="Шукати" id="findButton" onclick="performMark()">
+			<br /><br />
+			<div contenteditable="true" id="crypt_result">Нічого не написано!</div>
 			<p>
 				Гістограми данних:
 			</p>
 			<div id="diagram1"></div>
+			<div id="diagram12"></div>
+			<div id="diagram13"></div>
 			<div id="diagram2"></div>
+			<div id="diagram22"></div>
+
 			<div id="diagram3"></div>
+			<div id="diagram32"></div>
+
 			<div id="diagram4"></div>
+			<div id="diagram42"></div>
+
+
+
 		</fieldset>
-		
+
 	</form>
-	<script src="main_functions.js"></script>
+	<form>
+		<fieldset>
+			<legend>Пряма підстановка</legend>
+			<p>
+				Введіть ШТ маленькими літерами:
+			</p>
+			<textarea rows="1" cols="5" id="wordToChange"></textarea>
+			<textarea rows="1" cols="5" id="wordToChangeTo"></textarea><br />
+			<textarea rows="4" cols="70" id="crypt_message2">Введіть дані . . .</textarea>
+
+			<input type="button" value="Замінити" onclick="analizeText2()">
+		</fieldset>
+	</form>
+	<form>
+		<fieldset>
+			<legend>Шифр Віженера</legend>
+			<p>
+				Введіть текст для шифрування, дешифрації:
+			</p>
+			<textarea rows="4" cols="70" id="crypt_message3">Введіть текст . . .</textarea>
+			<p>
+				Введіть ключ:
+			</p>
+			<input type="text" placeholder="Введіть ключ" name="keywordViz" id="keywordInput">
+			<input type="button" value="Зашифрувати" onclick="runEncryptionVizener()"><input type="button" value="Дешифрувати" onclick="runDecryptionVizener()"><input type="button" value="Побудувати гістограму" onclick="showDiagram()">
+			<p>
+				<strong>Результат шифрування:</strong>
+			</p>
+			<p>Визначений алфавіт:</p>
+			<div id="crypt_alphabet3" style="font-style: italic;"></div>
+			<div contenteditable="true" id="crypt_result2">Нічого не написано!</div>
+			
+			<p>
+				Гістограми данних:
+			</p>
+			<div id="doubleDiagram"></div>
+		</fieldset>
+	</form>
 </body>
 </html>
