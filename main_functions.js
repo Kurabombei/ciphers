@@ -179,6 +179,7 @@ function getDataForAscendingOrderForFreq1(freq) {
 		x: Array.from(mapAsc.keys()), //Object.keys(freq)  x_coords 
 		y: Array.from(mapAsc.values()), //Object.values(freq) y_coords
 		type: 'bar',
+		name: 'ВТ'
 	}];
 
 	return data_returned;
@@ -484,67 +485,69 @@ var VigenereCipher = {
 
 function getDataForAscendingOrderForFreqArdvanced(freq, data) {
 
-	var sortingArr = data.keys();
-	var mapAsc = new Map([...freq.entries()].sort(function (a, b) {
-			return sortingArr.indexOf(a) - sortingArr.indexOf(b);
-		}));
-		var data_returned = [{
-			x: Array.from(mapAsc.keys()), //Object.keys(freq)  x_coords ## TODO ДОБАВИТИ ITEMS СЮДИ ЯК ДАНІ З МАСИВУ
-			y: Array.from(mapAsc.values()), //Object.values(freq) y_coords
-			type: 'bar',
+	var sortingArr = Object.keys(data[0]);
+	console.log(sortingArr);
+	var mapAsc = new Map([...freq.entries()].sort(function compare(a, b) {
+		return sortingArr.indexOf(a) - sortingArr.indexOf(b);
+	}));
+	var data_returned = [{
+		x: Array.from(mapAsc.keys()), //Object.keys(freq)  x_coords ## TODO ДОБАВИТИ ITEMS СЮДИ ЯК ДАНІ З МАСИВУ
+		y: Array.from(mapAsc.values()), //Object.values(freq) y_coords
+		type: 'bar',
+		name: 'ШТ'
 	}];
+	return data_returned;
+}
 
-		return data_returned;
+function showDiagram() {
+
+	var lowered_text = document.getElementById("crypt_message3").value.toLowerCase();
+	var no_enter_text = lowered_text.replace(/\n/g, '');
+	var text1 = no_enter_text.replace(/ /g, '_');
+
+	var lowered_text1 = document.getElementById("crypt_result2").innerHTML.toLowerCase();
+	var no_enter_text1 = lowered_text1.replace(/\n/g, '');
+	var text2 = no_enter_text1.replace(/ /g, '_');
+
+
+	var freq1 = getFrequencyOf1(text1);
+	var freq2 = getFrequencyOf1(text2);
+
+	console.log(freq1);
+	console.log(freq2);
+
+	var data1 = getDataForAscendingOrderForFreq1(freq1);
+	var data2 = getDataForAscendingOrderForFreqArdvanced(freq2, data1);
+
+	console.log(data1);
+	console.log(data2);
+	var data = [data1[0], data2[0]];
+	console.log(data);
+	var config = {
+		displaylogo: false,
+		modeBarButtonsToRemove: ['lasso2d', 'resetScale2d']
 	}
 
-	function showDiagram() {
+	// Один символ
+	var layout = {
+		title: 'Гістограма для одного символу у ВТ і ШТ (за спаданням):',
+		showlegend: true,
+		yaxis: {
+			autotick: false, // false for 1st
+			ticks: 'outside',
+			tick0: 0,
+			dtick: 10 // 50/5 for 1st lab/2nd lab
+		},
+		bargap: 15
+	};
+	Plotly.newPlot('doubleDiagram', data, layout, config);
+}
 
-		var lowered_text = document.getElementById("crypt_message3").value.toLowerCase();
-		var no_enter_text = lowered_text.replace(/\n/g, '');
-		var text1 = no_enter_text.replace(/ /g, '_');
+function runDecryptionVizener() {
+	var lowered_text = document.getElementById("crypt_message3").value; // .toLowerCase()
+	var no_enter_text = lowered_text.replace(/\n/g, '');
+	var text = no_enter_text.replace(/ /g, '_');
+	var keyword = document.getElementById("keywordInput").value;
+	document.getElementById("crypt_result2").innerHTML = VigenereCipher.decrypt(text, keyword);
 
-		var lowered_text1 = document.getElementById("crypt_result2").innerHTML.toLowerCase();
-		var no_enter_text1 = lowered_text1.replace(/\n/g, '');
-		var text2 = no_enter_text1.replace(/ /g, '_');
-
-
-		var freq1 = getFrequencyOf1(text1);
-		var freq2 = getFrequencyOf1(text2);
-
-		console.log(freq1);
-		console.log(freq2);
-
-		var data1 = getDataForAscendingOrderForFreq1(freq1);
-		var data2 = getDataForAscendingOrderForFreqArdvanced(freq2, data1);
-
-		console.log(data1);
-		console.log(data2);
-		var data = [data1, data2];
-		console.log(data);
-		var config = {
-			displaylogo: false,
-			modeBarButtonsToRemove: ['lasso2d', 'resetScale2d']
-		}
-
-		// Один символ
-		var layout = {
-			title: 'Гістограма для одного символу (за алфавітом):',
-			showlegend: false,
-			yaxis: {
-				autotick: true, // false for 1st
-				ticks: 'outside',
-				tick0: 0,
-				dtick: 5 // 50/5 for 1st lab/2nd lab
-			}
-		};
-		Plotly.newPlot('doubleDiagram', data, layout, config);
-	}
-
-	function runDecryptionVizener() {
-		var lowered_text = document.getElementById("crypt_message3").value; // .toLowerCase()
-		var no_enter_text = lowered_text.replace(/\n/g, '');
-		var text = no_enter_text.replace(/ /g, '_');
-		var keyword = document.getElementById("keywordInput").value;
-		document.getElementById("crypt_result2").innerHTML = VigenereCipher.decrypt(text, keyword);
-
-	}
+}
